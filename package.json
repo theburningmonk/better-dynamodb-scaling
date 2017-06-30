@@ -12,7 +12,8 @@
     "aws-sdk": "^2.80.0",
     "bluebird": "^3.5.0",
     "co": "^4.6.0",
-    "lodash": "^4.17.4"
+    "lodash": "^4.17.4",
+    "uuid": "^3.1.0"
   },
   "devDependencies": {
     "serverless": "^1.16.1"
