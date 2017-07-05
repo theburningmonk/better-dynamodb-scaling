@@ -9,6 +9,7 @@ provider:
     - Effect: Allow
       Action:
         - cloudwatch:PutMetricAlarm
+        - cloudwatch:PutMetricData
       Resource: "*"
     - Effect: Allow
       Action:
