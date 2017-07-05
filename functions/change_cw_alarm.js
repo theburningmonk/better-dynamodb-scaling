@@ -5,6 +5,7 @@ const co         = require('co');
 const Promise    = require('bluebird');
 const _          = require('lodash');
 const cloudwatch = new AWS.CloudWatch();
+const putMetric  = require('./cloudwatch').putMetric;
 
 let updateEvalPeriod = co.wrap(function* (alarm) {
   console.log(JSON.stringify(alarm));
@@ -27,6 +28,12 @@ let updateEvalPeriod = co.wrap(function* (alarm) {
   };
 
   yield cloudwatch.putMetricAlarm(req).promise();
+
+  // there should be only one dimension - TableName
+  let tableName = alarm.dimensions[0].value;
+  yield putMetric('dynamodb_scaling_change', tableName, alarm.threshold);
+
+  console.log(`tracked new threshold in cloudwatch`);
 });
 
 module.exports.handler = co.wrap(function* (event, context, callback) {
@@ -34,7 +41,7 @@ module.exports.handler = co.wrap(function* (event, context, callback) {
   
   let metricName = _.get(event, 'detail.requestParameters.metricName');
   let alarmName = _.get(event, 'detail.requestParameters.alarmName');
-  let evaluationPeriods = _.get(event, 'detail.requestParameters.evaluationPeriods');
+  let evaluationPeriods = _.get(event, 'detail.requestParameters.evaluationPeriods');  
 
   console.log(`metric name : ${metricName}`);
   console.log(`alarm name : ${alarmName}`);

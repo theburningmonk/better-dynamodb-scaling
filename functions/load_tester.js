@@ -1,12 +1,13 @@
 'use strict';
 
-const co       = require('co');
-const AWS      = require('aws-sdk');
-const lambda   = new AWS.Lambda();
-const Promise  = require('bluebird');
-const _        = require('lodash');
-const dynamodb = Promise.promisifyAll(new AWS.DynamoDB.DocumentClient());
-const uuidv4   = require('uuid/v4');
+const co         = require('co');
+const AWS        = require('aws-sdk');
+const lambda     = new AWS.Lambda();
+const Promise    = require('bluebird');
+const _          = require('lodash');
+const dynamodb   = Promise.promisifyAll(new AWS.DynamoDB.DocumentClient());
+const uuidv4     = require('uuid/v4');
+const cloudwatch = require('./cloudwatch');
 
 let putItems = co.wrap(function* (tableName, count) {  
   let batchWrite = function* (batch) {
@@ -40,6 +41,10 @@ let putItems = co.wrap(function* (tableName, count) {
   yield tasks;
 
   console.log(`finished saving [${items.length}] items`);
+
+  yield cloudwatch.putMetric('dynamodb_scaling_reqs_count', tableName, count);
+
+  console.log(`tracked request count in cloudwatch`);
 
   let end = new Date().getTime();
   let duration = end - start;
