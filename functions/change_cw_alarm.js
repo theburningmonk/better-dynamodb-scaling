@@ -49,6 +49,7 @@ module.exports.handler = co.wrap(function* (event, context, callback) {
 
   if (/Consumed.*CapacityUnits/.test(metricName) && 
       alarmName.includes("AlarmHigh") &&
+      alarmName.includes("1min") &&
       evaluationPeriods !== 1) {    
     let alarmName = event.detail.requestParameters.alarmName;
     let alarm = event.detail.requestParameters;
