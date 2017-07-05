@@ -17,7 +17,7 @@ let putMetric = co.wrap(function* (metricName, tableName, value) {
           }
         ],
         Timestamp: new Date,
-        Unit: Count,
+        Unit: 'Count',
         Value: value
       }
     ],
