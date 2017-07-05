@@ -23,7 +23,11 @@ provider:
 functions:
   generate_linear_load:
     handler: functions/generate_linear_load.handler
-    timeout: 10
+    timeout: 300
+
+  generate_head_heavy_load:
+    handler: functions/generate_head_heavy_load.handler
+    timeout: 300
 
   change_cw_alarms:
     handler: functions/change_cw_alarm.handler
