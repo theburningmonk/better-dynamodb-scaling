@@ -62,13 +62,8 @@ let getTableMetrics = co.wrap(function* (tableName) {
 
 let run = co.wrap(function* () {
   let rows = _.flatten(yield tables.map(tableName => getTableMetrics(tableName)));
-  let byTimestamp = _.groupBy(rows, r => r.timestamp);
-  byTimestamp.
-
   for (let row of rows) {
-    // for (let row of tableRows) {
-      console.log(`${row.tableName},${row.metricName},${row.timestamp},${row.value}`);
-    // }
+    console.log(`${row.tableName},${row.metricName},${row.timestamp},${row.value}`);
   }
 });
 
