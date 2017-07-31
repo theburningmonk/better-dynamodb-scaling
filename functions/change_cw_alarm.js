@@ -4,36 +4,29 @@ const AWS        = require('aws-sdk');
 const co         = require('co');
 const Promise    = require('bluebird');
 const _          = require('lodash');
-const cloudwatch = new AWS.CloudWatch();
-const putMetric  = require('./cloudwatch').putMetric;
+const cloudwatch = require('./cloudwatch');
+const accountId  = process.env.accountId;
+const region     = process.env.region;
+const snsTopic   = `arn:aws:sns:${region}:${accountId}:scale_up_dynamodb`;
 
-let updateEvalPeriod = co.wrap(function* (alarm) {
-  console.log(JSON.stringify(alarm));
+let makeProposal2Change = co.wrap(function* (alarmName) {
+  yield cloudwatch.cloneAndPutMetricAlarm(
+    alarmName, 
+    x => {
+      x.Namespace = 'theburningmonk.com';
+      x.MetricName = 'dynamodb_scaling_reqs_count';
+      x.EvaluationPeriods = 1;
+      x.AlarmActions = [ snsTopic ]
+    });
+});
 
-  let req = {
-    AlarmName: alarm.alarmName,
-    ComparisonOperator: alarm.comparisonOperator,
-    EvaluationPeriods: 1,
-    MetricName: alarm.metricName,
-    Namespace: alarm.namespace,
-    Period: alarm.period,
-    Threshold: alarm.threshold,
-    ActionsEnabled: alarm.actionEnabled,
-    AlarmActions: alarm.alarmActions,
-    AlarmDescription: alarm.alarmDescription,
-    Dimensions: alarm.dimensions.map(kvp => { 
-      return { Name: kvp.name, Value: kvp.value }
-    }),
-    Statistic: alarm.statistic
-  };
-
-  yield cloudwatch.putMetricAlarm(req).promise();
-
-  // there should be only one dimension - TableName
-  let tableName = alarm.dimensions[0].value;
-  yield putMetric('dynamodb_scaling_change', tableName, alarm.threshold);
-
-  console.log(`tracked new threshold in cloudwatch`);
+let makeProposal1Change = co.wrap(function* (alarmName) {
+  yield cloudwatch.cloneAndPutMetricAlarm(
+    alarmName,
+    x => {
+      x.EvaluationPeriods = 1;
+    }
+  );
 });
 
 module.exports.handler = co.wrap(function* (event, context, callback) {
@@ -47,15 +40,26 @@ module.exports.handler = co.wrap(function* (event, context, callback) {
   console.log(`alarm name : ${alarmName}`);
   console.log(`eval period : ${evaluationPeriods}`);
 
+  // proposal 1
   if (/Consumed.*CapacityUnits/.test(metricName) && 
       alarmName.includes("AlarmHigh") &&
-      alarmName.includes("1min") &&
+      alarmName.includes("_proposal1") &&
       evaluationPeriods !== 1) {    
     let alarmName = event.detail.requestParameters.alarmName;
-    let alarm = event.detail.requestParameters;
 
-    console.log(`updating [${alarmName}]...`);
-    yield updateEvalPeriod(alarm);
+    console.log(`[Proposal 1] updating [${alarmName}]...`);
+    yield makeProposal1Change(alarmName);
+    console.log("all done");
+  }
+  // proposal 2 
+  else if (/Consumed.*CapacityUnits/.test(metricName) && 
+      alarmName.includes("AlarmHigh") &&
+      alarmName.includes("_proposal2") &&
+      evaluationPeriods !== 1) {    
+    let alarmName = event.detail.requestParameters.alarmName;
+
+    console.log(`[Proposal 2] updating [${alarmName}]...`);
+    yield makeProposal2Change(alarmName);
     console.log("all done");
   }
   

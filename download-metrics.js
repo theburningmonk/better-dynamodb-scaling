@@ -8,22 +8,29 @@ AWS.config.region = 'us-east-1';
 const cloudwatch  = Promise.promisifyAll(new AWS.CloudWatch());
 const Lambda      = new AWS.Lambda();
 
-const startTime = new Date('2017-07-05T14:00:00.000Z');
-const endTime   = new Date('2017-07-05T15:30:00.000Z');
+const startTime = new Date('2017-07-30T22:45:00.000Z');
+const endTime   = new Date('2017-07-31T00:45:00.000Z');
 
 const metrics = [
   { namespace: "theburningmonk.com", metricName: "dynamodb_scaling_reqs_count" },
-  { namespace: "theburningmonk.com", metricName: "dynamodb_scaling_change" },
   { namespace: "AWS/DynamoDB", metricName: "ConsumedWriteCapacityUnits" },
   { namespace: "AWS/DynamoDB", metricName: "ProvisionedWriteCapacityUnits" },
   { namespace: "AWS/DynamoDB", metricName: "WriteThrottleEvents" }
 ];
 
 const tables = [ 
-  "dynamo_scaling_1min", 
-  "dynamo_scaling_5min",
-  "dynamo_head_heavy_1min",
-  "dynamo_head_heavy_5min" 
+  // "yc_proposal2_30", 
+  // "yc_proposal2_40", 
+  // "yc_proposal2_50", 
+  // "yc_proposal2_60", 
+  // "yc_proposal2_70",
+  // "yc_proposal2_80"
+  "yc_proposal2_top_heavy_30",
+  "yc_proposal2_top_heavy_40",
+  "yc_proposal2_top_heavy_50",
+  "yc_proposal2_top_heavy_60",
+  "yc_proposal2_top_heavy_70",
+  "yc_proposal2_top_heavy_80"
 ];
 
 let getTableMetrics = co.wrap(function* (tableName) {

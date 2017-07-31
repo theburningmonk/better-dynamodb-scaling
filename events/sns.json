@@ -1,0 +1,22 @@
+{
+    "Records": [
+        {
+            "EventSource": "aws:sns",
+            "EventVersion": "1.0",
+            "EventSubscriptionArn": "arn:aws:sns:us-east-1:499014364541:scale_up_dynamodb:4dfaf27b-8819-4a16-993c-a3d345e1e8b8",
+            "Sns": {
+                "Type": "Notification",
+                "MessageId": "14c479c0-7ac7-53a8-9347-281b6e3bf2dc",
+                "TopicArn": "arn:aws:sns:us-east-1:499014364541:scale_up_dynamodb",
+                "Subject": "ALARM: \"TargetTracking-table/dynamo_scaling_1min-AlarmHigh-33cdd4a8-df4...\" in US East - N. Virginia",
+                "Message": "{\"AlarmName\":\"TargetTracking-table/dynamo_scaling_1min-AlarmHigh-33cdd4a8-df47-4489-b296-f9143e5769e8\",\"AlarmDescription\":\"DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:499014364541:scalingPolicy:8a923775-de67-4982-b2dc-9f8c6a180cfb:resource/dynamodb/table/dynamo_scaling_1min:policyName/DynamoDBWriteCapacityUtilization:table/dynamo_scaling_1min.\",\"AWSAccountId\":\"499014364541\",\"NewStateValue\":\"ALARM\",\"NewStateReason\":\"Threshold Crossed: 1 datapoint [1808.6111111111113 (08/07/17 17:12:00)] was greater than the threshold (1500.0).\",\"StateChangeTime\":\"2017-07-08T17:13:32.930+0000\",\"Region\":\"US East - N. Virginia\",\"OldStateValue\":\"OK\",\"Trigger\":{\"MetricName\":\"dynamodb_scaling_reqs_count\",\"Namespace\":\"theburningmonk.com\",\"StatisticType\":\"Statistic\",\"Statistic\":\"SUM\",\"Unit\":null,\"Dimensions\":[{\"name\":\"TableName\",\"value\":\"dynamo_scaling_1min\"}],\"Period\":60,\"EvaluationPeriods\":1,\"ComparisonOperator\":\"GreaterThanThreshold\",\"Threshold\":1500.0,\"TreatMissingData\":\"\",\"EvaluateLowSampleCountPercentile\":\"\"}}",
+                "Timestamp": "2017-07-08T17:13:32.963Z",
+                "SignatureVersion": "1",
+                "Signature": "DGk915rk+C6MVjnNLnyB5/xzw/bF1bN78A03BnMTzVY4ug3yJ5L4zL2XWVSndnCOHKZWV8pOHqxnC253vuKRYncosoH9VBxWG1aaAkY4nYDQwv5YRmDGd2X4ZERa3Ji2Qcq40tgR5WFaaGZ90rXaztX2QJtXc/nDdAbvrJ6UJHalomIgi7JOetQ+bIb8o2hs9lQhbEadA2BMVT+hApC+TBOuvhgr0n6nQ+MrLn505xhO/yk2Wzs4vj59aNrqr5O21wMEEEscjI67QesIpsv4RZalmt7I9FIa61/y96U2CNMA8EFhbmCFv180ftPYX+bJXcQd1Co5+ctyYk4WCUu+/Q==",
+                "SigningCertUrl": "https://sns.us-east-1.amazonaws.com/SimpleNotificationService-b95095beb82e8f6a046b3aafc7f4149a.pem",
+                "UnsubscribeUrl": "https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:499014364541:scale_up_dynamodb:4dfaf27b-8819-4a16-993c-a3d345e1e8b8",
+                "MessageAttributes": {}
+            }
+        }
+    ]
+}

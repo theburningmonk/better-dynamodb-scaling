@@ -1,0 +1,65 @@
+{
+    "version": "0",
+    "id": "0220e467-fdd9-4888-b426-30b46283d173",
+    "detail-type": "AWS API Call via CloudTrail",
+    "source": "aws.monitoring",
+    "account": "499014364541",
+    "time": "2017-07-08T16:53:28Z",
+    "region": "us-east-1",
+    "resources": [],
+    "detail": {
+        "eventVersion": "1.04",
+        "userIdentity": {
+            "type": "AssumedRole",
+            "principalId": "AROAI6GB7EPYB6G6OGRSA:AutoScaling-ManageAlarms",
+            "arn": "arn:aws:sts::499014364541:assumed-role/DynamoDBAutoscaleRole/AutoScaling-ManageAlarms",
+            "accountId": "499014364541",
+            "accessKeyId": "ASIAJFM3RFSRBXLFO6AA",
+            "sessionContext": {
+                "attributes": {
+                    "mfaAuthenticated": "false",
+                    "creationDate": "2017-07-08T16:53:28Z"
+                },
+                "sessionIssuer": {
+                    "type": "Role",
+                    "principalId": "AROAI6GB7EPYB6G6OGRSA",
+                    "arn": "arn:aws:iam::499014364541:role/service-role/DynamoDBAutoscaleRole",
+                    "accountId": "499014364541",
+                    "userName": "DynamoDBAutoscaleRole"
+                }
+            },
+            "invokedBy": "application-autoscaling.amazonaws.com"
+        },
+        "eventTime": "2017-07-08T16:53:28Z",
+        "eventSource": "monitoring.amazonaws.com",
+        "eventName": "PutMetricAlarm",
+        "awsRegion": "us-east-1",
+        "sourceIPAddress": "application-autoscaling.amazonaws.com",
+        "userAgent": "application-autoscaling.amazonaws.com",
+        "requestParameters": {
+            "threshold": 1500,
+            "period": 60,
+            "metricName": "ConsumedWriteCapacityUnits",
+            "dimensions": [
+                {
+                    "value": "dynamo_scaling_1min",
+                    "name": "TableName"
+                }
+            ],
+            "evaluationPeriods": 5,
+            "actionsEnabled": true,
+            "comparisonOperator": "GreaterThanThreshold",
+            "namespace": "AWS/DynamoDB",
+            "alarmName": "TargetTracking-table/dynamo_scaling_1min-AlarmHigh-33cdd4a8-df47-4489-b296-f9143e5769e8",
+            "alarmActions": [
+                "arn:aws:autoscaling:us-east-1:499014364541:scalingPolicy:8a923775-de67-4982-b2dc-9f8c6a180cfb:resource/dynamodb/table/dynamo_scaling_1min:policyName/DynamoDBWriteCapacityUtilization:table/dynamo_scaling_1min"
+            ],
+            "alarmDescription": "DO NOT EDIT OR DELETE. For TargetTrackingScaling policy arn:aws:autoscaling:us-east-1:499014364541:scalingPolicy:8a923775-de67-4982-b2dc-9f8c6a180cfb:resource/dynamodb/table/dynamo_scaling_1min:policyName/DynamoDBWriteCapacityUtilization:table/dynamo_scaling_1min.",
+            "statistic": "Sum"
+        },
+        "responseElements": null,
+        "requestID": "f7805d84-63fd-11e7-928f-f9a6a551af7d",
+        "eventID": "95557306-2503-4adb-9ce4-5710b6a40aac",
+        "eventType": "AwsApiCall"
+    }
+}

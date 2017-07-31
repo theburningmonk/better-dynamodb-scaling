@@ -42,7 +42,7 @@ let putItems = co.wrap(function* (tableName, count) {
 
   console.log(`finished saving [${items.length}] items`);
 
-  yield cloudwatch.putMetric('dynamodb_scaling_reqs_count', tableName, count);
+  yield cloudwatch.putMetric('theburningmonk.com', 'dynamodb_scaling_reqs_count', tableName, count);
 
   console.log(`tracked request count in cloudwatch`);
 
